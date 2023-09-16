@@ -1,7 +1,6 @@
 const path = require("path");
 const rootDir = require("../util/path");
 const bcrypt = require("bcrypt");
-
 const jwt = require('jsonwebtoken');
 
 const MongoUser = require('../mongoModels/user');
@@ -53,15 +52,22 @@ exports.postLogin = async (req, res, next) => {
 exports.postSignUp = async (req, res, next) => {
   try {
 
-    const isUser = await MongoUser.fetchByEmail(req.body.email);
+    // const isUser = await MongoUser.fetchByEmail(req.body.email);
 
-    if (isUser === null) {
+
+    if (true) {
 
         bcrypt.hash(req.body.password, 10, async (err, hash)=>{
 
             console.log(err);
 
-            let mongoUser = new MongoUser(req.body.name, req.body.email, hash, false, 0);
+            let mongoUser = new MongoUser({
+              name: req.body.name, 
+              email: req.body.email,
+              password: hash,
+              isPremium: false,
+              totalExpense: 0
+            });
 
             let user = await mongoUser.save();
 

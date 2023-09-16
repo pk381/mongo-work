@@ -3,7 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser'); 
 
 // database
-const mongoConnect = require('./util/mongodb').mongoConnect;
+// const mongoConnect = require('./util/mongodb').mongoConnect;\
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -35,10 +36,19 @@ app.use('/',(req, res, next)=>{
     res.redirect("/user/sign_up");
 });
 
-mongoConnect(async ()=>{
+// mongoConnect(async ()=>{
     
-    console.log("connected");
-    app.listen(4000);
-});
+//     console.log("connected");
+//     app.listen(4000);
+// });
 
+mongoose.connect('mongodb+srv://prabhat:prabhat@cluster0.yktjrxl.mongodb.net/expensetracker?retryWrites=true&w=majority')
+.then(()=>{
+    console.log('connected');
+    app.listen(4000);
+
+})
+.catch(err =>{
+    console.log(err);
+})
 
