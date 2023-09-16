@@ -13,7 +13,9 @@ const userSchema = new Schema({
     },
     password:{
         type: String
-    }
+    },
+    isPremiumUser: Boolean,
+    totalExpense: Number
 });
 
 module.exports = mongoose.model('user', userSchema);

@@ -21,16 +21,22 @@ exports.postAddExpense = async (req, res, next) => {
 
   try {
 
-    const mongoExpense = new Expense(amount, description, category, req.user._id);
+    console.log(req.user._id);
+
+    const mongoExpense = new Expense({
+      amount: amount,
+      description: description,
+      category: category,
+      userId: req.user._id
+    });
 
     const expense = await mongoExpense.save();
 
-    console.log(expense);
+    let user = await User.findById(req.user._id);
 
-    const db = getDb();
+    user.totalExpense += parseInt(amount);
 
-    await db.collection('user').updateOne({_id: new mongoDb.ObjectId(req.user._id)}, {$set: {
-        totalExpense: req.user.totalExpense + parseInt(expense.amount)}});
+    await user.save();
     
     res.status(201).json({ expense: expense });
   } catch(err) {
@@ -45,9 +51,11 @@ exports.getExpenses = async (req, res, next) => {
     const pageSize = parseInt(req.query.pageSize);
     const page = parseInt(req.query.page);
 
-    const expenses = await Expense.fetchAll(req.user._id, (page-1)*pageSize, pageSize);
+    const count = await Expense.count({userId: req.user._id});
 
-    let count = await Expense.count(req.user._id);
+    console.log(count);
+
+    const expenses = await Expense.find({userId: req.user._id});
 
     res.status(201).json({ expenses: expenses,
        currentPage: page,

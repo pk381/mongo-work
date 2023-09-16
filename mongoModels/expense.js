@@ -14,7 +14,8 @@ const expenseSchema = new Schema({
     },
     category:{
         type: String
-    }
+    },
+    userId: String 
 });
 
 module.exports = mongoose.model('expense', expenseSchema);
