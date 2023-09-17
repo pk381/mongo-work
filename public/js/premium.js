@@ -43,6 +43,7 @@ document.getElementById("leaderBoardBtn").addEventListener("click", async ()=> {
 
       boardList.appendChild(newItem);
     });
+
   } catch (err) {
     console.log(err);
   }
@@ -90,7 +91,7 @@ document.getElementById("show_user_files").addEventListener("click", async()=>{
 
     res.data.fileUrls.forEach(row =>{
       console.log(row.createdAt)
-      download(row.fileUrl, row.createdAt);
+      download(row.fileUrl, row.fileName);
     });
     
   } 
@@ -99,7 +100,7 @@ document.getElementById("show_user_files").addEventListener("click", async()=>{
   }
 });
 
-function download(url, time){
+function download(url, name){
 
   try{
 
@@ -110,7 +111,7 @@ function download(url, time){
     let downloadBtn = document.createElement('button');
     downloadBtn.className = "btn btn-black btn-sm float-right";
 
-    let date = document.createTextNode(time);
+    let date = document.createTextNode(name);
 
     li.appendChild(date);
     downloadBtn.appendChild(document.createTextNode("Download again"));

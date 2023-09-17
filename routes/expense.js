@@ -1,9 +1,6 @@
 const express = require('express');
-
 const authantication = require('../middleware/auth');
-
 const router = express.Router();
-
 const expenseController = require('../controllers/expense');
 
 router.get('/', expenseController.getMain);

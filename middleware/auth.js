@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../mongoModels/user');
+const User = require('../models/user');
 
 exports.authantication = async (req, res, next)=>{
 

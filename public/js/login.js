@@ -18,7 +18,7 @@ document.getElementById("submit").addEventListener('click', async (e)=>{
 
         console.log(res.data.message, res.data.token);
         localStorage.setItem('token', res.data.token);
-        localStorage.setItem('isPremium', res.data.isPremium);
+        localStorage.setItem('isPremium', res.data.isPremiumUser);
         localStorage.setItem('userName', res.data.userName)
 
         console.log("/expense");

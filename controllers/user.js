@@ -3,7 +3,7 @@ const rootDir = require("../util/path");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 
-const MongoUser = require('../mongoModels/user');
+const MongoUser = require('../models/user');
 
 function generateToken(id){
 
@@ -18,7 +18,6 @@ exports.getSignUp = (req, res, next) => {
 
 exports.getLogin = (req, res, next) => {
 
-  console.log("login Page");
   res.sendFile(path.join(rootDir, "views", "login.html"));
 };
 
@@ -26,8 +25,6 @@ exports.postLogin = async (req, res, next) => {
   try {
 
     const user = await MongoUser.find({email: req.body.email});
-
-    console.log(user);
 
     if (user.length === 0) {
       res.status(401).json({ message: "user not exist" });
@@ -38,7 +35,7 @@ exports.postLogin = async (req, res, next) => {
             console.log("err", err);
             
             if(result === true){
-                res.status(201).json({message: "login successfully",userName: user[0].name, isPremium: user[0].isPremuimUser, token: generateToken(user[0]._id)});
+                res.status(201).json({message: "login successfully",userName: user[0].name, isPremiumUser: user[0].isPremiumUser, token: generateToken(user[0]._id)});
             }
             else{
                 res.status(401).json({message: "password did not match"});
@@ -55,9 +52,6 @@ exports.postSignUp = async (req, res, next) => {
   try {
 
     const isUser = await MongoUser.find({email: req.body.email});
-
-    console.log(isUser);
-
 
     if (isUser.length === 0) {
 

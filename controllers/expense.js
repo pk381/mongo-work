@@ -1,7 +1,7 @@
 const path = require("path");
 const rootDir = require("../util/path");
-const User = require('../mongoModels/user');
-const Expense = require('../mongoModels/expense');
+const User = require('../models/user');
+const Expense = require('../models/expense');
 
 const mongoDb = require('mongodb');
 
