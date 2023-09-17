@@ -140,7 +140,10 @@ function addExpense(obj) {
     console.log("deleting");
 
     try{
-     await axios.delete("http://localhost:4000/expense/delete-expense/" + obj.id);
+
+    console.log(obj);
+     await axios.delete(`http://localhost:4000/expense/delete-expense/${obj._id}`,
+      {headers:{"Authorization":token}});
      expenses.removeChild(li);
     }
     catch(err){

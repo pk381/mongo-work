@@ -73,28 +73,23 @@ exports.getExpenses = async (req, res, next) => {
 
 exports.deleteExpense = async (req, res, next) => {
 
-  const transaction = await sequelize.transaction();
-
   try {
     const id = req.params.expenseId;
 
-    // console.log(id);
+    const expense = await Expense.findById(id);
 
-    const expense = await Expense.findByPk(id);
+    const user = await User.findById(expense.userId);
 
-    const user = await User.findOne({where: {id: expense.userId}});
+    user.totalExpense -= expense.amount;
 
-    await Expense.destroy({ where: {id: id}, transaction: transaction });
+    await user.save();
 
-    await User.update({totalAmount: user.totalAmount - expense.amount}, { where: {id: user.id}, transaction: transaction});
+    await Expense.findByIdAndDelete(expense._id);
 
-    await transaction.commit();
-
-    res.sendStatus(200);
+    res.status(201).json({message: 'deleted successfully'});
 
   } catch (err){
 
-    await transaction.rollback();
     console.log(err);
     res.status(500).json(err);
   }
