@@ -15,7 +15,10 @@ const expenseSchema = new Schema({
     category:{
         type: String
     },
-    userId: String 
+    userId:{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    } 
 });
 
 module.exports = mongoose.model('expense', expenseSchema);
